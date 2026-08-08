@@ -3,186 +3,539 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BloomCycle - Period Tracker & Pregnancy Companion</title>
-  <meta name="description" content="BloomCycle is a beautiful, private period tracker and pregnancy gestational milestone companion app. Track symptoms, predict ovulation, and explore weekly developmental updates.">
+  
+  <!-- Primary Meta Tags -->
+  <title>BloomCycle - Period Tracker, Ovulation & Pregnancy Calculator</title>
+  <meta name="title" content="BloomCycle - Period Tracker, Ovulation & Pregnancy Calculator">
+  <meta name="description" content="BloomCycle is a 100% private, offline period tracker, ovulation calculator & pregnancy gestational milestone companion app for iOS. Calculate fertile windows and due dates instantly.">
+  <meta name="keywords" content="period tracker, ovulation calculator, pregnancy calculator, due date calculator, fertile window predictor, menstrual cycle tracker, private period app, gestational age calculator">
+  <meta name="author" content="BloomCycle">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://bloomcycle.com/">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bloomcycle.com/">
+  <meta property="og:title" content="BloomCycle - Period Tracker & Pregnancy Companion">
+  <meta property="og:description" content="Track your menstrual cycle, predict ovulation, calculate pregnancy due dates, and monitor gestational milestones with 100% local privacy.">
+  <meta property="og:image" content="https://bloomcycle.com/bloom_app_preview.jpg">
+  <meta property="og:site_name" content="BloomCycle">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter / X -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://bloomcycle.com/">
+  <meta property="twitter:title" content="BloomCycle - Period Tracker & Pregnancy Companion">
+  <meta property="twitter:description" content="Track your cycle, predict ovulation, calculate pregnancy due dates with complete local privacy.">
+  <meta property="twitter:image" content="https://bloomcycle.com/bloom_app_preview.jpg">
+
+  <!-- Favicon Icons -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
   <link rel="stylesheet" href="style.css">
+
+  <!-- JSON-LD Structured Data for Google Rich Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "BloomCycle",
+        "operatingSystem": "iOS",
+        "applicationCategory": "HealthApplication",
+        "ratingValue": "4.9",
+        "reviewCount": "1250",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "A private period tracker, ovulation predictor, and pregnancy gestational milestone companion app."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How does BloomCycle calculate period and ovulation predictions?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "BloomCycle uses clinical timelines. Your fertile window is defined as the 5 days leading up to ovulation and the day of ovulation itself. The algorithm adjusts dynamically based on your recorded cycle consistency and body signals."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my health data uploaded to external servers?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Your health records, daily logs, notes, and cycle history are saved entirely in your iPhone's local sandbox storage. We do not use remote databases or server tracking for health metrics."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I switch the app to Pregnancy Mode?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Open the app, go to the More tab, select Pregnancy Settings, and toggle Pregnancy Mode. Input your estimated due date, and your dashboards, calendars, and loggers will automatically adapt to gestational pregnancy trackers."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I delete my data or reset the app?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can clear all local records by navigating to the My Profile sheet under the More tab and clicking Delete Account. This completely wipes all local cycle files and settings from your device."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "name": "BloomCycle Calculators",
+        "url": "https://bloomcycle.com/#calculators",
+        "applicationCategory": "HealthApplication",
+        "browserRequirements": "Requires JavaScript. Requires HTML5."
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
   <!-- Header -->
   <header>
-    <div class="nav-container">
+    <nav class="nav-container">
       <a href="#" class="logo">
         <div class="logo-icon">🌸</div>
         Bloom<span>Cycle</span>
       </a>
       <ul class="nav-links">
         <li><a href="#features">Features</a></li>
+        <li><a href="#calculators">Calculators</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#support">Support</a></li>
         <li><a href="privacy.html">Privacy</a></li>
         <li><a href="terms.html">Terms</a></li>
       </ul>
       <a href="#support" class="btn-cta">Contact Support</a>
-    </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero-section" id="hero">
-    <div class="hero-backdrop">
-      <div class="floating-petal" style="width: 40px; height: 50px; top: 15%; left: 10%; animation-delay: 0s;"></div>
-      <div class="floating-petal" style="width: 60px; height: 70px; top: 60%; left: 85%; animation-delay: 2s; transform: rotate(75deg);"></div>
-      <div class="floating-petal" style="width: 30px; height: 40px; top: 80%; left: 20%; animation-delay: 4s; transform: rotate(15deg);"></div>
-    </div>
-    <div class="hero-container">
-      <div class="hero-text">
-        <h1>Your cycle, refined. <em>Understand, track, thrive.</em></h1>
-        <p>A beautiful, private health companion designed to guide you through every phase of your menstrual cycle, fertile window, and pregnancy journey with premium medical-grade insights.</p>
-        <div class="hero-buttons">
-          <a href="#" class="app-store-btn">
-            <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download on the App Store">
-          </a>
-        </div>
-      </div>
-      <div class="hero-preview">
-        <div class="phone-mockup">
-          <img src="bloom_app_preview.jpg" alt="BloomCycle App Screenshot Interface Preview">
-        </div>
-        <div class="mockup-shadow"></div>
-      </div>
-    </div>
-  </section>
+  <!-- Mobile Navigation -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#features">Features</a>
+    <a href="#calculators">Calculators</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#faq">FAQ</a>
+    <a href="#support">Support</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+  </div>
 
-  <!-- Features Grid -->
-  <section class="features-section" id="features">
-    <div class="section-header">
-      <h2>Designed for Every Journey</h2>
-      <p>Whether you're understanding patterns, trying to conceive, or tracking pregnancy week-by-week, BloomCycle adapts seamlessly around you.</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🩸</div>
-        <h3>Period Forecasting</h3>
-        <p>Log symptoms and flows daily. Our localized prediction engine updates your cycle window, predictions, and confidence scores dynamically.</p>
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="hero-backdrop">
+        <div class="gradient-orb gradient-orb-1"></div>
+        <div class="gradient-orb gradient-orb-2"></div>
+        <div class="gradient-orb gradient-orb-3"></div>
+        <div class="floating-petal" style="width: 40px; height: 50px; top: 15%; left: 10%; animation-delay: 0s;"></div>
+        <div class="floating-petal" style="width: 60px; height: 70px; top: 60%; left: 85%; animation-delay: 2s; transform: rotate(75deg);"></div>
+        <div class="floating-petal" style="width: 30px; height: 40px; top: 80%; left: 20%; animation-delay: 4s; transform: rotate(15deg);"></div>
+        <div class="floating-petal" style="width: 45px; height: 55px; top: 30%; left: 70%; animation-delay: 6s; transform: rotate(30deg);"></div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">✨</div>
-        <h3>Fertility & Ovulation</h3>
-        <p>Identify your peak fertile window using detailed statistical curves, basal body temperature analysis, and cervical mucus tracking logs.</p>
+      <div class="hero-container">
+        <div class="hero-text reveal">
+          <div class="hero-badge">🌿 Your Private Health Companion</div>
+          <h1>Your cycle, refined. <em>Understand, track, thrive.</em></h1>
+          <p>A beautiful, private health companion designed to guide you through every phase of your menstrual cycle, fertile window, and pregnancy journey with premium medical-grade insights.</p>
+          <div class="hero-buttons">
+            <a href="#" class="app-store-btn">
+              <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download on the App Store">
+            </a>
+          </div>
+        </div>
+        <div class="hero-preview reveal-right">
+          <div class="phone-mockup">
+            <img src="bloom_app_preview.jpg" alt="BloomCycle App Screenshot Interface Preview">
+          </div>
+          <div class="phone-glow"></div>
+          <div class="mockup-shadow"></div>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🤰</div>
-        <h3>Pregnancy Companion</h3>
-        <p>Bypass menstrual views to monitor gestational progress, view estimated due countdowns, weekly fruit size charts, and developmental milestones.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔒</div>
-        <h3>100% Secure & Offline</h3>
-        <p>No account setup required. Your intimate health logs remain encrypted locally on your iOS device. Your data is yours alone.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">👥</div>
-        <h3>Local Community</h3>
-        <p>Share tips, write notes, and explore discussions with our secure local forum boards. Everything is cached directly inside your device sandbox.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3>Symptom Insights</h3>
-        <p>Generate detailed cycle history reports, highlight recurring patterns, and export clean PDF transcripts to share with your physician.</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FAQ Accordion -->
-  <section class="faq-section" id="faq">
-    <div class="faq-container">
-      <div class="section-header">
-        <h2>Frequently Asked Questions</h2>
-        <p>Common questions about BloomCycle, predictions, and privacy policies.</p>
-      </div>
-      <div class="accordion">
-        <div class="accordion-item">
-          <div class="accordion-header">
-            <h3>How does BloomCycle calculate predictions?</h3>
-            <div class="accordion-icon">+</div>
-          </div>
-          <div class="accordion-content">
-            <p>BloomCycle uses standard clinical timelines. Your fertile window is defined as the 5 days leading up to ovulation and the day of ovulation itself. As you log more days, the localized algorithm adjusts based on your cycle consistency and recorded body signals.</p>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <div class="accordion-header">
-            <h3>Is my health data uploaded to external servers?</h3>
-            <div class="accordion-icon">+</div>
-          </div>
-          <div class="accordion-content">
-            <p>No. Your health records, daily logs, notes, and cycle history are saved entirely in your iPhone's local sandbox storage. We do not use remote databases or server tracking for health metrics. Your privacy is absolute.</p>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <div class="accordion-header">
-            <h3>How do I switch the app to Pregnancy Mode?</h3>
-            <div class="accordion-icon">+</div>
-          </div>
-          <div class="accordion-content">
-            <p>Open the app, go to the <strong>More</strong> tab, select <strong>Pregnancy Settings</strong>, and toggle Pregnancy Mode. Input your estimated due date, and your dashboards, calendars, and loggers will automatically adapt to gestational pregnancy trackers.</p>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <div class="accordion-header">
-            <h3>How can I delete my data or reset the app?</h3>
-            <div class="accordion-icon">+</div>
-          </div>
-          <div class="accordion-content">
-            <p>You can clear all local records by navigating to the <strong>My Profile</strong> sheet under the <strong>More</strong> tab and clicking the destructive <strong>Delete Account</strong> button. This completely wipes all keychain tokens, local cycle files, and settings snapshots from your device.</p>
-          </div>
-        </div>
-      </div>
+    <!-- Wave Divider -->
+    <div class="wave-divider">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path fill="#ffffff" d="M0,64L48,58.7C96,53,192,43,288,48C384,53,480,75,576,80C672,85,768,75,864,64C960,53,1056,43,1152,42.7C1248,43,1344,53,1392,58.7L1440,64L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
+      </svg>
     </div>
-  </section>
 
-  <!-- Support Form Section -->
-  <section class="support-section" id="support">
-    <div class="support-grid">
-      <div class="support-info">
-        <h2>Customer Support Center</h2>
-        <p>Need help with your app settings or have feedback for our development team? Get in touch and we'll reply within 24 hours.</p>
-        <div class="info-cards">
-          <div class="info-card">
-            <div class="info-icon">✉️</div>
-            <div class="info-text">
-              <h4>Email Support</h4>
-              <p>support@bloomcycle.com</p>
+    <!-- Stats Section -->
+    <section class="stats-section" id="stats">
+      <div class="stats-container">
+        <div class="stat-item reveal">
+          <div class="stat-number" data-target="50">0</div>
+          <div class="stat-suffix">K+</div>
+          <div class="stat-label">Active Users</div>
+        </div>
+        <div class="stat-item reveal" style="transition-delay: 0.15s">
+          <div class="stat-number" data-target="4.9">0</div>
+          <div class="stat-suffix">★</div>
+          <div class="stat-label">App Store Rating</div>
+        </div>
+        <div class="stat-item reveal" style="transition-delay: 0.3s">
+          <div class="stat-number" data-target="100">0</div>
+          <div class="stat-suffix">%</div>
+          <div class="stat-label">Private & Offline</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+      <div class="section-header reveal">
+        <h2>Designed for Every Journey</h2>
+        <p>Whether you're understanding patterns, trying to conceive, or tracking pregnancy week-by-week, BloomCycle adapts seamlessly around you.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon">🩸</div>
+          <h3>Period Forecasting</h3>
+          <p>Log symptoms and flows daily. Our localized prediction engine updates your cycle window, predictions, and confidence scores dynamically.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">✨</div>
+          <h3>Fertility & Ovulation</h3>
+          <p>Identify your peak fertile window using detailed statistical curves, basal body temperature analysis, and cervical mucus tracking logs.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🤰</div>
+          <h3>Pregnancy Companion</h3>
+          <p>Bypass menstrual views to monitor gestational progress, view estimated due countdowns, weekly fruit size charts, and developmental milestones.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🔒</div>
+          <h3>100% Secure & Offline</h3>
+          <p>No account setup required. Your intimate health logs remain encrypted locally on your iOS device. Your data is yours alone.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">👥</div>
+          <h3>Local Community</h3>
+          <p>Share tips, write notes, and explore discussions with our secure local forum boards. Everything is cached directly inside your device sandbox.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">📊</div>
+          <h3>Symptom Insights</h3>
+          <p>Generate detailed cycle history reports, highlight recurring patterns, and export clean PDF transcripts to share with your physician.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Health Calculators Section -->
+    <section class="calculators-section" id="calculators">
+      <div class="calc-container">
+        <div class="section-header reveal">
+          <div class="calc-badge">⚡ Interactive Tools</div>
+          <h2>Instant Cycle & Health Calculators</h2>
+          <p>Get instant clinical predictions for your period, peak ovulation window, or pregnancy gestational timeline right in your browser.</p>
+        </div>
+
+        <div class="calc-card reveal-scale">
+          <!-- Calculator Tabs Switcher -->
+          <div class="calc-tabs">
+            <button class="calc-tab-btn active" data-calc="period">
+              <span>🌸</span> Period & Ovulation Tracker
+            </button>
+            <button class="calc-tab-btn" data-calc="pregnancy">
+              <span>🤰</span> Pregnancy & Due Date Calculator
+            </button>
+          </div>
+
+          <!-- TAB 1: Period & Ovulation Calculator -->
+          <div class="calc-content active" id="calc-period">
+            <div class="calc-grid">
+              <div class="calc-form">
+                <h3>Calculate Your Cycle & Fertile Window</h3>
+                <p class="calc-subtitle">Select your last period start date and typical cycle length.</p>
+                
+                <div class="form-group">
+                  <label for="periodLmp">First Day of Your Last Period</label>
+                  <input type="date" id="periodLmp" class="calc-input">
+                </div>
+
+                <div class="form-group">
+                  <div class="label-with-value">
+                    <label for="cycleLength">Average Cycle Length</label>
+                    <span class="range-val" id="cycleLengthVal">28 days</span>
+                  </div>
+                  <input type="range" id="cycleLength" min="21" max="40" value="28" class="calc-slider">
+                </div>
+
+                <div class="form-group">
+                  <div class="label-with-value">
+                    <label for="periodDuration">Period Duration</label>
+                    <span class="range-val" id="periodDurationVal">5 days</span>
+                  </div>
+                  <input type="range" id="periodDuration" min="2" max="10" value="5" class="calc-slider">
+                </div>
+
+                <button type="button" class="btn-cta btn-calc" id="btnCalculatePeriod">Calculate My Predictions</button>
+              </div>
+
+              <!-- Results Display -->
+              <div class="calc-results-card" id="periodResults">
+                <div class="results-header">
+                  <h4>Your Cycle Predictions</h4>
+                  <span class="pulse-badge">Live Estimate</span>
+                </div>
+                
+                <div class="results-metric-grid">
+                  <div class="metric-box highlight">
+                    <div class="metric-icon">🩸</div>
+                    <div class="metric-info">
+                      <span class="metric-label">Next Period Start</span>
+                      <strong class="metric-value" id="resNextPeriod">--</strong>
+                    </div>
+                  </div>
+
+                  <div class="metric-box">
+                    <div class="metric-icon">✨</div>
+                    <div class="metric-info">
+                      <span class="metric-label">Estimated Ovulation</span>
+                      <strong class="metric-value" id="resOvulation">--</strong>
+                    </div>
+                  </div>
+
+                  <div class="metric-box">
+                    <div class="metric-icon">🌱</div>
+                    <div class="metric-info">
+                      <span class="metric-label">Peak Fertile Window</span>
+                      <strong class="metric-value" id="resFertileWindow">--</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="upcoming-timeline">
+                  <h5>Upcoming Cycle Forecast</h5>
+                  <div class="timeline-pills" id="resCycleTimeline">
+                    <!-- Dynamic timeline pills inserted via JS -->
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="info-card">
-            <div class="info-icon">📍</div>
-            <div class="info-text">
-              <h4>Office Location</h4>
-              <p>San Francisco, CA</p>
+
+          <!-- TAB 2: Pregnancy & Due Date Calculator -->
+          <div class="calc-content" id="calc-pregnancy">
+            <div class="calc-grid">
+              <div class="calc-form">
+                <h3>Pregnancy Due Date & Milestone Calculator</h3>
+                <p class="calc-subtitle">Estimate your due date and view baby size milestones.</p>
+
+                <div class="form-group">
+                  <label for="pregCalcMethod">Calculation Method</label>
+                  <select id="pregCalcMethod" class="calc-select">
+                    <option value="lmp">First Day of Last Period (LMP)</option>
+                    <option value="conception">Conception Date</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="pregDate" id="pregDateLabel">First Day of Last Period</label>
+                  <input type="date" id="pregDate" class="calc-input">
+                </div>
+
+                <button type="button" class="btn-cta btn-calc" id="btnCalculatePregnancy">Calculate Due Date</button>
+              </div>
+
+              <!-- Pregnancy Results Display -->
+              <div class="calc-results-card" id="pregnancyResults">
+                <div class="results-header">
+                  <h4>Gestational Timeline</h4>
+                  <span class="pulse-badge purple">Baby Development</span>
+                </div>
+
+                <div class="results-metric-grid">
+                  <div class="metric-box highlight-purple">
+                    <div class="metric-icon">👶</div>
+                    <div class="metric-info">
+                      <span class="metric-label">Estimated Due Date</span>
+                      <strong class="metric-value" id="resDueDate">--</strong>
+                    </div>
+                  </div>
+
+                  <div class="metric-box">
+                    <div class="metric-icon">⏳</div>
+                    <div class="metric-info">
+                      <span class="metric-label">Current Progress</span>
+                      <strong class="metric-value" id="resGestationalAge">--</strong>
+                    </div>
+                  </div>
+
+                  <div class="metric-box">
+                    <div class="metric-icon">🥑</div>
+                    <div class="metric-info">
+                      <span class="metric-label">Baby Size Milestone</span>
+                      <strong class="metric-value" id="resBabySize">--</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="trimester-progress-container">
+                  <div class="trimester-labels">
+                    <span id="tri1">1st Trimester</span>
+                    <span id="tri2">2nd Trimester</span>
+                    <span id="tri3">3rd Trimester</span>
+                  </div>
+                  <div class="trimester-bar-bg">
+                    <div class="trimester-bar-fill" id="trimesterBarFill" style="width: 0%"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="support-form-card">
-        <form id="contactForm">
-          <div class="form-feedback" id="formFeedback"></div>
-          <div class="form-group">
-            <label for="name">Your Name</label>
-            <input type="text" id="name" placeholder="Enter your full name" required>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-section" id="how-it-works">
+      <div class="how-container">
+        <div class="section-header reveal">
+          <h2>How It Works</h2>
+          <p>Get started in three simple steps and take control of your reproductive health journey.</p>
+        </div>
+        <div class="steps-container">
+          <div class="step-card reveal" style="transition-delay: 0s">
+            <div class="step-number">1</div>
+            <h3>Download & Setup</h3>
+            <p>Install BloomCycle from the App Store. No account needed — your data stays on your device from day one.</p>
           </div>
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" placeholder="name@example.com" required>
+          <div class="step-card reveal" style="transition-delay: 0.15s">
+            <div class="step-number">2</div>
+            <h3>Log Your Cycle</h3>
+            <p>Track periods, symptoms, moods, and cervical changes. The more you log, the smarter your predictions become.</p>
           </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" placeholder="How can we help you?" required></textarea>
+          <div class="step-card reveal" style="transition-delay: 0.3s">
+            <div class="step-number">3</div>
+            <h3>Get Insights</h3>
+            <p>Receive personalized predictions, fertility windows, and cycle analytics — all powered locally on your device.</p>
           </div>
-          <button type="submit" class="btn-submit" id="submitBtn">Send Message</button>
-        </form>
+        </div>
       </div>
+    </section>
+
+    <!-- Wave Divider -->
+    <div class="wave-divider flip">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path fill="#ffffff" d="M0,64L48,58.7C96,53,192,43,288,48C384,53,480,75,576,80C672,85,768,75,864,64C960,53,1056,43,1152,42.7C1248,43,1344,53,1392,58.7L1440,64L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
+      </svg>
     </div>
-  </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+      <div class="faq-container">
+        <div class="section-header reveal">
+          <h2>Frequently Asked Questions</h2>
+          <p>Common questions about BloomCycle, predictions, and privacy policies.</p>
+        </div>
+        <div class="accordion">
+          <div class="accordion-item reveal" style="transition-delay: 0s">
+            <div class="accordion-header">
+              <h3>How does BloomCycle calculate predictions?</h3>
+              <div class="accordion-icon">+</div>
+            </div>
+            <div class="accordion-content">
+              <p>BloomCycle uses standard clinical timelines. Your fertile window is defined as the 5 days leading up to ovulation and the day of ovulation itself. As you log more days, the localized algorithm adjusts based on your cycle consistency and recorded body signals.</p>
+            </div>
+          </div>
+          <div class="accordion-item reveal" style="transition-delay: 0.1s">
+            <div class="accordion-header">
+              <h3>Is my health data uploaded to external servers?</h3>
+              <div class="accordion-icon">+</div>
+            </div>
+            <div class="accordion-content">
+              <p>No. Your health records, daily logs, notes, and cycle history are saved entirely in your iPhone's local sandbox storage. We do not use remote databases or server tracking for health metrics. Your privacy is absolute.</p>
+            </div>
+          </div>
+          <div class="accordion-item reveal" style="transition-delay: 0.2s">
+            <div class="accordion-header">
+              <h3>How do I switch the app to Pregnancy Mode?</h3>
+              <div class="accordion-icon">+</div>
+            </div>
+            <div class="accordion-content">
+              <p>Open the app, go to the <strong>More</strong> tab, select <strong>Pregnancy Settings</strong>, and toggle Pregnancy Mode. Input your estimated due date, and your dashboards, calendars, and loggers will automatically adapt to gestational pregnancy trackers.</p>
+            </div>
+          </div>
+          <div class="accordion-item reveal" style="transition-delay: 0.3s">
+            <div class="accordion-header">
+              <h3>How can I delete my data or reset the app?</h3>
+              <div class="accordion-icon">+</div>
+            </div>
+            <div class="accordion-content">
+              <p>You can clear all local records by navigating to the <strong>My Profile</strong> sheet under the <strong>More</strong> tab and clicking the destructive <strong>Delete Account</strong> button. This completely wipes all keychain tokens, local cycle files, and settings snapshots from your device.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Support Section -->
+    <section class="support-section" id="support">
+      <div class="support-grid">
+        <div class="support-info reveal-left">
+          <h2>Customer Support Center</h2>
+          <p>Need help with your app settings or have feedback for our development team? Get in touch and we'll reply within 24 hours.</p>
+          <div class="info-cards">
+            <div class="info-card">
+              <div class="info-icon">✉️</div>
+              <div class="info-text">
+                <h4>Email Support</h4>
+                <p>support@bloomcycle.com</p>
+              </div>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">📍</div>
+              <div class="info-text">
+                <h4>Office Location</h4>
+                <p>San Francisco, CA</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="support-form-card reveal-right">
+          <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <div class="form-feedback" id="formFeedback"></div>
+            <input type="hidden" name="_subject" value="BloomCycle Support Request">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="name@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="How can we help you?" required></textarea>
+            </div>
+            <button type="submit" class="btn-submit" id="submitBtn">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer>
@@ -197,6 +550,8 @@
             <h4>Application</h4>
             <ul>
               <li><a href="#features">Features</a></li>
+              <li><a href="#calculators">Calculators</a></li>
+              <li><a href="#how-it-works">How It Works</a></li>
               <li><a href="#faq">FAQ</a></li>
               <li><a href="#support">Support Contact</a></li>
             </ul>
@@ -212,10 +567,13 @@
       </div>
       <div class="footer-bottom">
         <p>&copy; 2026 BloomCycle. All rights reserved.</p>
-        <p>Designed with love for privacy and wellness.</p>
+        <p>Designed with <span class="footer-heart">♥</span> for privacy and wellness.</p>
       </div>
     </div>
   </footer>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
   <script src="script.js"></script>
 </body>
