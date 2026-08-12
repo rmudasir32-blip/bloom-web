@@ -454,6 +454,15 @@ header.header-scrolled .nav-container {
   transform: scale(1.05);
 }
 
+.footer-app-store {
+  display: inline-block;
+  margin-top: 1.25rem;
+}
+
+.footer-app-store img {
+  height: 42px;
+}
+
 .hero-preview {
   position: relative;
   display: flex;
