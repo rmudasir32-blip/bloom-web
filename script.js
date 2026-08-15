@@ -238,14 +238,14 @@ document.addEventListener('DOMContentLoaded', () => {
           showFeedback('Thank you! Your message has been sent successfully. We usually reply within 24 hours.', 'success');
           contactForm.reset();
         } else {
-          showFeedback('Message received! You can also reach our team directly at support@bloomcycle.com.', 'success');
+          showFeedback('Message received! You can also reach our team directly at support@veliacycle.com.', 'success');
           contactForm.reset();
         }
       })
       .catch(() => {
         setFormDisabled(false);
         if (submitBtn) submitBtn.innerText = submitBtn.dataset.originalText || 'Send Message';
-        showFeedback('Message received! You can also reach our team directly at support@bloomcycle.com.', 'success');
+        showFeedback('Message received! You can also reach our team directly at support@veliacycle.com.', 'success');
         contactForm.reset();
       });
     });
