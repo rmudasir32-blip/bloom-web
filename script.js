@@ -150,9 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
     statNumbers.forEach(el => statObserver.observe(el));
   }
 
-  // 6. FAQ Accordion
+  // 6. FAQ Accordion with Accessibility & Dynamic Resize
   const accordionHeaders = document.querySelectorAll('.accordion-header');
   accordionHeaders.forEach(headerEl => {
+    headerEl.setAttribute('role', 'button');
+    headerEl.setAttribute('aria-expanded', 'false');
+
     headerEl.addEventListener('click', () => {
       const item = headerEl.parentElement;
       const content = headerEl.nextElementSibling;
@@ -160,18 +163,30 @@ document.addEventListener('DOMContentLoaded', () => {
       
       document.querySelectorAll('.accordion-item').forEach(otherItem => {
         otherItem.classList.remove('active');
+        const otherHeader = otherItem.querySelector('.accordion-header');
+        if (otherHeader) otherHeader.setAttribute('aria-expanded', 'false');
         const otherContent = otherItem.querySelector('.accordion-content');
         if (otherContent) otherContent.style.maxHeight = null;
       });
       
       if (isActive) {
         item.classList.remove('active');
+        headerEl.setAttribute('aria-expanded', 'false');
         content.style.maxHeight = null;
       } else {
         item.classList.add('active');
+        headerEl.setAttribute('aria-expanded', 'true');
         content.style.maxHeight = content.scrollHeight + 'px';
       }
     });
+  });
+
+  // Dynamically adjust active accordion max-height on window resize
+  window.addEventListener('resize', () => {
+    const activeItem = document.querySelector('.accordion-item.active .accordion-content');
+    if (activeItem) {
+      activeItem.style.maxHeight = activeItem.scrollHeight + 'px';
+    }
   });
 
   // 7. Contact Form
