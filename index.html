@@ -40,9 +40,10 @@
   <meta property="twitter:image" content="https://veliacycle.com/velia_app_preview.jpg">
   <meta property="twitter:image:alt" content="VeliaCycle Period Tracker and Pregnancy App Interface Preview">
 
-  <!-- Favicon & Apple Touch Icons -->
+  <!-- Favicon, Apple Touch Icons & PWA Manifest -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23eb577d%22/><text x=%2250%25%22 y=%2255%25%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2260%22>🌸</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23e61952%22/><text x=%2250%25%22 y=%2255%25%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2260%22>🌸</text></svg>">
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
 
   <!-- JSON-LD Structured Data for Google Rich Snippets -->
@@ -133,13 +134,12 @@
       <ul class="nav-links">
         <li><a href="#features">Features</a></li>
         <li><a href="#calculators">Calculators</a></li>
+        <li><a href="guides.html">Clinical Guides</a></li>
         <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#support">Support</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="terms.html">Terms</a></li>
       </ul>
-      <a href="#support" class="btn-cta">Contact Support</a>
+      <a href="#calculators" class="btn-cta">⚡ Instant Calculators</a>
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
         <span></span>
         <span></span>
@@ -153,6 +153,7 @@
   <div class="mobile-nav" id="mobileNav">
     <a href="#features">Features</a>
     <a href="#calculators">Calculators</a>
+    <a href="guides.html">Clinical Guides</a>
     <a href="#how-it-works">How It Works</a>
     <a href="#faq">FAQ</a>
     <a href="#support">Support</a>
@@ -319,7 +320,12 @@
               <div class="calc-results-card" id="periodResults">
                 <div class="results-header">
                   <h4>Your Cycle Predictions</h4>
-                  <span class="pulse-badge">Live Estimate</span>
+                  <div class="header-actions">
+                    <span class="pulse-badge">Live Estimate</span>
+                    <button type="button" class="btn-ics-export" id="btnExportPeriodIcs" title="Export this cycle forecast to Apple Calendar, Google Calendar, or Outlook">
+                      <span>📅</span> Save to Calendar
+                    </button>
+                  </div>
                 </div>
                 
                 <div class="results-metric-grid">
@@ -398,7 +404,12 @@
               <div class="calc-results-card" id="pregnancyResults">
                 <div class="results-header">
                   <h4>Gestational Timeline</h4>
-                  <span class="pulse-badge purple">Baby Development</span>
+                  <div class="header-actions">
+                    <span class="pulse-badge purple">Baby Development</span>
+                    <button type="button" class="btn-ics-export purple" id="btnExportPregIcs" title="Export due date & trimester milestones to your calendar">
+                      <span>📅</span> Save to Calendar
+                    </button>
+                  </div>
                 </div>
 
                 <div class="results-metric-grid">
@@ -604,6 +615,7 @@
             <ul>
               <li><a href="#features">Features</a></li>
               <li><a href="#calculators">Calculators</a></li>
+              <li><a href="guides.html">Clinical Guides</a></li>
               <li><a href="#how-it-works">How It Works</a></li>
               <li><a href="#faq">FAQ</a></li>
               <li><a href="#support">Support Contact</a></li>

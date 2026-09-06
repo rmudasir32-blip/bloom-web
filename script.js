@@ -619,6 +619,169 @@ document.addEventListener('DOMContentLoaded', () => {
   calculatePeriod();
   calculatePregnancy();
 
+  // 14. iCalendar (.ics) Export Engine
+  const formatIcsDateStr = (d) => {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
+  };
+
+  const downloadIcs = (filename, events) => {
+    const lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//VeliaCycle//Cycle & Pregnancy Companion//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH'
+    ];
+
+    events.forEach(evt => {
+      lines.push('BEGIN:VEVENT');
+      lines.push(`UID:velia-${Date.now()}-${Math.random().toString(36).substring(2, 9)}@veliacycle.com`);
+      lines.push(`DTSTAMP:${formatIcsDateStr(new Date())}T120000Z`);
+      lines.push(`DTSTART;VALUE=DATE:${evt.start}`);
+      lines.push(`DTEND;VALUE=DATE:${evt.end}`);
+      lines.push(`SUMMARY:${evt.title}`);
+      lines.push(`DESCRIPTION:${evt.description.replace(/\n/g, '\\n')}`);
+      lines.push('STATUS:CONFIRMED');
+      lines.push('TRANSP:TRANSPARENT');
+      lines.push('END:VEVENT');
+    });
+
+    lines.push('END:VCALENDAR');
+    const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  // Period & Ovulation Calendar Export Listener
+  const btnExportPeriodIcs = document.getElementById('btnExportPeriodIcs');
+  if (btnExportPeriodIcs) {
+    btnExportPeriodIcs.addEventListener('click', () => {
+      if (!periodLmpInput || !periodLmpInput.value) {
+        alert('Please select your last period start date first.');
+        return;
+      }
+
+      const lmpDate = new Date(periodLmpInput.value + 'T00:00:00');
+      if (isNaN(lmpDate.getTime())) return;
+
+      const cycleLen = parseInt(cycleLengthInput ? cycleLengthInput.value : 28, 10);
+      const duration = parseInt(periodDurationInput ? periodDurationInput.value : 5, 10);
+
+      const nextPeriodStart = new Date(lmpDate);
+      nextPeriodStart.setDate(lmpDate.getDate() + cycleLen);
+
+      const nextPeriodEnd = new Date(nextPeriodStart);
+      nextPeriodEnd.setDate(nextPeriodStart.getDate() + duration);
+
+      const ovulationDate = new Date(lmpDate);
+      ovulationDate.setDate(lmpDate.getDate() + (cycleLen - 14));
+
+      const ovulationEnd = new Date(ovulationDate);
+      ovulationEnd.setDate(ovulationDate.getDate() + 1);
+
+      const fertileStart = new Date(ovulationDate);
+      fertileStart.setDate(ovulationDate.getDate() - 5);
+
+      const fertileEnd = new Date(ovulationDate);
+      fertileEnd.setDate(ovulationDate.getDate() + 2); // DTEND is exclusive
+
+      const events = [
+        {
+          start: formatIcsDateStr(nextPeriodStart),
+          end: formatIcsDateStr(nextPeriodEnd),
+          title: '🌸 Next Period Expected (VeliaCycle)',
+          description: `Estimated start of your next menstrual period (Cycle length: ${cycleLen} days, Duration: ${duration} days). Forecasted privately via VeliaCycle.`
+        },
+        {
+          start: formatIcsDateStr(fertileStart),
+          end: formatIcsDateStr(fertileEnd),
+          title: '✨ Peak Fertile Window (VeliaCycle)',
+          description: 'Your peak fertile window based on clinical timelines. Highest probability of conception.'
+        },
+        {
+          start: formatIcsDateStr(ovulationDate),
+          end: formatIcsDateStr(ovulationEnd),
+          title: '🌱 Estimated Ovulation Day (VeliaCycle)',
+          description: 'Projected peak ovulation day (~14 days before your next expected period).'
+        }
+      ];
+
+      downloadIcs('velia_cycle_forecast.ics', events);
+    });
+  }
+
+  // Pregnancy Milestones Calendar Export Listener
+  const btnExportPregIcs = document.getElementById('btnExportPregIcs');
+  if (btnExportPregIcs) {
+    btnExportPregIcs.addEventListener('click', () => {
+      if (!pregDateInput || !pregDateInput.value) {
+        alert('Please select your date first.');
+        return;
+      }
+
+      const inputDate = new Date(pregDateInput.value + 'T00:00:00');
+      if (isNaN(inputDate.getTime())) return;
+
+      const methodSelect = document.getElementById('pregCalcMethod');
+      const method = methodSelect ? methodSelect.value : 'lmp';
+
+      let lmpDate = new Date(inputDate);
+      let dueDate = new Date(inputDate);
+
+      if (method === 'lmp') {
+        dueDate.setDate(inputDate.getDate() + 280);
+      } else {
+        lmpDate.setDate(inputDate.getDate() - 14);
+        dueDate.setDate(inputDate.getDate() + 266);
+      }
+
+      const dueEnd = new Date(dueDate);
+      dueEnd.setDate(dueDate.getDate() + 1);
+
+      const tri2Start = new Date(lmpDate);
+      tri2Start.setDate(lmpDate.getDate() + (13 * 7));
+      const tri2End = new Date(tri2Start);
+      tri2End.setDate(tri2Start.getDate() + 1);
+
+      const tri3Start = new Date(lmpDate);
+      tri3Start.setDate(lmpDate.getDate() + (27 * 7));
+      const tri3End = new Date(tri3Start);
+      tri3End.setDate(tri3Start.getDate() + 1);
+
+      const events = [
+        {
+          start: formatIcsDateStr(tri2Start),
+          end: formatIcsDateStr(tri2End),
+          title: '🤰 2nd Trimester Begins (Week 13) - VeliaCycle',
+          description: 'Welcome to your second trimester! Often the golden trimester with increased energy.'
+        },
+        {
+          start: formatIcsDateStr(tri3Start),
+          end: formatIcsDateStr(tri3End),
+          title: '👶 3rd Trimester Begins (Week 27) - VeliaCycle',
+          description: 'Welcome to your third trimester! The final stretch before meeting your baby.'
+        },
+        {
+          start: formatIcsDateStr(dueDate),
+          end: formatIcsDateStr(dueEnd),
+          title: '🎉 Estimated Due Date (EDD) - VeliaCycle',
+          description: 'Your estimated baby due date, calculated via Naegele’s clinical standard with VeliaCycle.'
+        }
+      ];
+
+      downloadIcs('velia_pregnancy_milestones.ics', events);
+    });
+  }
+
   // 8. Smooth Scrolling for Nav Links
   const allNavLinks = document.querySelectorAll('.nav-links a, .mobile-nav a');
   allNavLinks.forEach(link => {
