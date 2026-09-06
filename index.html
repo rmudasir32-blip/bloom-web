@@ -4,12 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
+  <!-- Preconnect & Fonts (Non-blocking font loading) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
   <!-- Primary Meta Tags -->
   <title>VeliaCycle - Period Tracker, Ovulation & Pregnancy Calculator</title>
   <meta name="title" content="VeliaCycle - Period Tracker, Ovulation & Pregnancy Calculator">
   <meta name="description" content="VeliaCycle is a 100% private, offline period tracker, ovulation calculator & pregnancy gestational milestone companion app for iOS. Calculate fertile windows and due dates instantly.">
   <meta name="keywords" content="period tracker, ovulation calculator, pregnancy calculator, due date calculator, fertile window predictor, menstrual cycle tracker, private period app, gestational age calculator">
   <meta name="author" content="VeliaCycle">
+  <meta name="theme-color" content="#ffffff">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="https://veliacycle.com/">
 
@@ -19,6 +25,10 @@
   <meta property="og:title" content="VeliaCycle - Period Tracker & Pregnancy Companion">
   <meta property="og:description" content="Track your menstrual cycle, predict ovulation, calculate pregnancy due dates, and monitor gestational milestones with 100% local privacy.">
   <meta property="og:image" content="https://veliacycle.com/velia_app_preview.jpg">
+  <meta property="og:image:width" content="896">
+  <meta property="og:image:height" content="1200">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:alt" content="VeliaCycle Period Tracker and Pregnancy App Screenshot Interface Preview">
   <meta property="og:site_name" content="VeliaCycle">
   <meta property="og:locale" content="en_US">
 
@@ -28,9 +38,11 @@
   <meta property="twitter:title" content="VeliaCycle - Period Tracker & Pregnancy Companion">
   <meta property="twitter:description" content="Track your cycle, predict ovulation, calculate pregnancy due dates with complete local privacy.">
   <meta property="twitter:image" content="https://veliacycle.com/velia_app_preview.jpg">
+  <meta property="twitter:image:alt" content="VeliaCycle Period Tracker and Pregnancy App Interface Preview">
 
-  <!-- Favicon Icons -->
+  <!-- Favicon & Apple Touch Icons -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23eb577d%22/><text x=%2250%25%22 y=%2255%25%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2260%22>🌸</text></svg>">
   <link rel="stylesheet" href="style.css">
 
   <!-- JSON-LD Structured Data for Google Rich Snippets -->
@@ -43,14 +55,21 @@
         "name": "VeliaCycle",
         "operatingSystem": "iOS",
         "applicationCategory": "HealthApplication",
-        "ratingValue": "4.9",
-        "reviewCount": "1250",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "1250",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD"
         },
-        "description": "A private period tracker, ovulation predictor, and pregnancy gestational milestone companion app."
+        "downloadUrl": "https://apps.apple.com/us/app/velia-cycle-period-track/id6780260544",
+        "installUrl": "https://apps.apple.com/us/app/velia-cycle-period-track/id6780260544",
+        "description": "A private, 100% offline period tracker, ovulation predictor, and pregnancy gestational milestone companion app for iOS."
       },
       {
         "@type": "FAQPage",
@@ -159,14 +178,14 @@
           <h1>Your cycle, refined. <em>Understand, track, thrive.</em></h1>
           <p>A beautiful, private health companion designed to guide you through every phase of your menstrual cycle, fertile window, and pregnancy journey with premium medical-grade insights.</p>
           <div class="hero-buttons">
-            <a href="https://apps.apple.com/us/app/velia-cycle-period-track/id6780260544" target="_blank" rel="noopener noreferrer" class="app-store-btn">
-              <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download VeliaCycle on the App Store">
+            <a href="https://apps.apple.com/us/app/velia-cycle-period-track/id6780260544" target="_blank" rel="noopener noreferrer" class="app-store-btn" aria-label="Download VeliaCycle on the iOS App Store (opens in a new tab)">
+              <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download VeliaCycle on the App Store" width="150" height="50">
             </a>
           </div>
         </div>
         <div class="hero-preview reveal-right">
           <div class="phone-mockup">
-            <img src="velia_app_preview.jpg" alt="VeliaCycle App Screenshot Interface Preview">
+            <img src="velia_app_preview.jpg" alt="VeliaCycle App Screenshot Interface Preview" width="896" height="1200" fetchpriority="high">
           </div>
           <div class="phone-glow"></div>
           <div class="mockup-shadow"></div>
@@ -544,8 +563,8 @@
         <div class="footer-brand">
           <h3>VeliaCycle</h3>
           <p>Your private, beautiful companion for menstrual tracking and pregnancy journeys.</p>
-          <a href="https://apps.apple.com/us/app/velia-cycle-period-track/id6780260544" target="_blank" rel="noopener noreferrer" class="app-store-btn footer-app-store">
-            <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download VeliaCycle on the App Store">
+          <a href="https://apps.apple.com/us/app/velia-cycle-period-track/id6780260544" target="_blank" rel="noopener noreferrer" class="app-store-btn footer-app-store" aria-label="Download VeliaCycle on the iOS App Store (opens in a new tab)">
+            <img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="Download VeliaCycle on the App Store" width="150" height="50" loading="lazy">
           </a>
         </div>
         <div class="footer-links-grid">

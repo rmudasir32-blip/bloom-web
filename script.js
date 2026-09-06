@@ -9,17 +9,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const header = document.querySelector('header');
   const backToTop = document.getElementById('backToTop');
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
+  const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav a');
   const orbs = document.querySelectorAll('.gradient-orb');
 
-  window.addEventListener('scroll', () => {
+  function updateOnScroll() {
     const scrollY = window.scrollY;
 
     // Scroll Progress Bar
     if (scrollProgress) {
       const documentHeight = document.documentElement.scrollHeight;
       const windowHeight = window.innerHeight;
-      scrollProgress.style.width = ((scrollY / (documentHeight - windowHeight)) * 100) + '%';
+      const progress = (scrollY / Math.max(documentHeight - windowHeight, 1)) * 100;
+      scrollProgress.style.width = Math.min(Math.max(progress, 0), 100) + '%';
     }
 
     // Header Scroll Effect
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Active Navigation Tracking
     if (sections.length > 0) {
       const headerHeight = header ? header.offsetHeight : 0;
-      const scrollPosition = scrollY + headerHeight;
+      const scrollPosition = scrollY + headerHeight + 10;
       sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
@@ -52,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
           navLinks.forEach(link => {
             if (link.getAttribute('href') === currentId) {
               link.classList.add('active');
-            } else {
+            } else if (link.getAttribute('href').startsWith('#')) {
               link.classList.remove('active');
             }
           });
@@ -66,7 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (orbs[1]) orbs[1].style.transform = `translateY(${scrollY * 0.15}px)`;
       if (orbs[2]) orbs[2].style.transform = `translateY(${scrollY * -0.08}px)`;
     }
-  });
+  }
+
+  let isScrolling = false;
+  window.addEventListener('scroll', () => {
+    if (!isScrolling) {
+      window.requestAnimationFrame(() => {
+        updateOnScroll();
+        isScrolling = false;
+      });
+      isScrolling = true;
+    }
+  }, { passive: true });
 
   // Back to Top Click
   if (backToTop) {
@@ -214,14 +226,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const formAction = contactForm.getAttribute('action');
       const formData = new FormData(contactForm);
 
-      // Graceful handler for demo / placeholder Formspree endpoint
+      // Graceful handler for demo / placeholder Formspree endpoint (direct mailto fallback)
       if (formAction.includes('YOUR_FORM_ID')) {
         setTimeout(() => {
           setFormDisabled(false);
           if (submitBtn) submitBtn.innerText = submitBtn.dataset.originalText || 'Send Message';
-          showFeedback('Thank you! Your message has been sent successfully. We usually reply within 24 hours.', 'success');
+          showFeedback('Routing your inquiry directly to our support team at support@veliacycle.com...', 'success');
+          
+          // Construct mailto link with entered parameters
+          const mailtoUri = `mailto:support@veliacycle.com?subject=${encodeURIComponent('VeliaCycle Support: ' + name)}&body=${encodeURIComponent(message + '\n\n---\nFrom: ' + name + ' (' + email + ')')}`;
+          window.location.href = mailtoUri;
           contactForm.reset();
-        }, 600);
+        }, 500);
         return;
       }
       
@@ -251,30 +267,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 10. Mobile Menu Toggle
+  // 10. Mobile Menu Toggle & Accessibility
   const menuToggle = document.getElementById('menuToggle');
   const mobileNav = document.getElementById('mobileNav');
   const mobileOverlay = document.getElementById('mobileOverlay');
 
   const closeMobileMenu = () => {
-    if (menuToggle) menuToggle.classList.remove('active');
+    if (menuToggle) {
+      menuToggle.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    }
     if (mobileNav) mobileNav.classList.remove('open');
     if (mobileOverlay) mobileOverlay.classList.remove('visible');
     document.body.classList.remove('menu-open');
   };
 
   if (menuToggle) {
+    menuToggle.setAttribute('aria-expanded', 'false');
     menuToggle.addEventListener('click', () => {
-      menuToggle.classList.toggle('active');
-      if (mobileNav) mobileNav.classList.toggle('open');
-      if (mobileOverlay) mobileOverlay.classList.toggle('visible');
-      document.body.classList.toggle('menu-open');
+      const isOpen = menuToggle.classList.toggle('active');
+      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (mobileNav) mobileNav.classList.toggle('open', isOpen);
+      if (mobileOverlay) mobileOverlay.classList.toggle('visible', isOpen);
+      document.body.classList.toggle('menu-open', isOpen);
     });
   }
 
   if (mobileOverlay) {
     mobileOverlay.addEventListener('click', closeMobileMenu);
   }
+
+  // Close mobile navigation when ESC is pressed
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileNav && mobileNav.classList.contains('open')) {
+      closeMobileMenu();
+    }
+  });
 
   // 13. Interactive Health Calculators
   // Tab Switcher
@@ -312,21 +340,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Set default dates to realistic values if empty
+  // Set default dates to realistic values if empty & enforce max boundaries
   const today = new Date();
+  const todayIso = today.toISOString().split('T')[0];
   const periodLmpInput = document.getElementById('periodLmp');
   const pregDateInput = document.getElementById('pregDate');
 
-  if (periodLmpInput && !periodLmpInput.value) {
-    const defaultPeriodLmp = new Date(today);
-    defaultPeriodLmp.setDate(today.getDate() - 12);
-    periodLmpInput.value = defaultPeriodLmp.toISOString().split('T')[0];
+  if (periodLmpInput) {
+    periodLmpInput.max = todayIso;
+    if (!periodLmpInput.value) {
+      const defaultPeriodLmp = new Date(today);
+      defaultPeriodLmp.setDate(today.getDate() - 12);
+      periodLmpInput.value = defaultPeriodLmp.toISOString().split('T')[0];
+    }
   }
 
-  if (pregDateInput && !pregDateInput.value) {
-    const defaultPregDate = new Date(today);
-    defaultPregDate.setDate(today.getDate() - 60);
-    pregDateInput.value = defaultPregDate.toISOString().split('T')[0];
+  if (pregDateInput) {
+    pregDateInput.max = todayIso;
+    if (!pregDateInput.value) {
+      const defaultPregDate = new Date(today);
+      defaultPregDate.setDate(today.getDate() - 60);
+      pregDateInput.value = defaultPregDate.toISOString().split('T')[0];
+    }
   }
 
   // Date Formatting Helper
@@ -359,6 +394,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const lmpDate = new Date(periodLmpInput.value + 'T00:00:00');
     if (isNaN(lmpDate.getTime())) return;
+
+    // Prevent impossible future dates
+    const currentNow = new Date();
+    currentNow.setHours(0, 0, 0, 0);
+    if (lmpDate.getTime() > currentNow.getTime()) {
+      if (resNextPeriod) resNextPeriod.innerText = 'Select Past Date';
+      if (resOvulation) resOvulation.innerText = '--';
+      if (resFertileWindow) resFertileWindow.innerText = '--';
+      if (resCycleTimeline) resCycleTimeline.innerHTML = '<span style="color:var(--color-primary-deep);font-size:0.85rem;">Start date cannot be in the future.</span>';
+      return;
+    }
 
     const cycleLen = parseInt(cycleLengthInput ? cycleLengthInput.value : 28, 10);
     const duration = parseInt(periodDurationInput ? periodDurationInput.value : 5, 10);
@@ -420,6 +466,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputDate = new Date(pregDateInput.value + 'T00:00:00');
     if (isNaN(inputDate.getTime())) return;
 
+    // Prevent impossible future dates
+    const currentNow = new Date();
+    currentNow.setHours(0, 0, 0, 0);
+    if (inputDate.getTime() > currentNow.getTime()) {
+      if (resDueDate) resDueDate.innerText = 'Select Past Date';
+      if (resGestationalAge) resGestationalAge.innerText = 'Date cannot be in future';
+      if (resBabySize) resBabySize.innerText = '--';
+      if (trimesterBarFill) trimesterBarFill.style.width = '0%';
+      return;
+    }
+
     const methodSelect = document.getElementById('pregCalcMethod');
     const method = methodSelect ? methodSelect.value : 'lmp';
 
@@ -436,11 +493,9 @@ document.addEventListener('DOMContentLoaded', () => {
       dueDate.setDate(inputDate.getDate() + 266);
     }
 
-    // Gestational Age in weeks & days
-    const currentNow = new Date();
-    currentNow.setHours(0, 0, 0, 0);
+    // Gestational Age in weeks & days (using Math.round for DST shift accuracy)
     const diffTime = currentNow.getTime() - lmpDate.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffDays = Math.max(Math.round(diffTime / (1000 * 60 * 60 * 24)), 0);
     
     let gestationalWeeks = Math.floor(diffDays / 7);
     let gestationalDays = diffDays % 7;
